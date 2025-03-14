@@ -9,12 +9,18 @@ for userCommand in "${userCommands[@]}"; do
   eval "$userCommand" & pids+=($!)
 done
 
-# If any one of the invoked commands exited with a non-zero exit code, exit the whole thing with code 1.
+failed=""
+# wait for all of the jobs 
+# in case we want to aggregate eg: reports
 for pid in "${pids[@]}"; do
   if ! wait "$pid"; then
-    exit 1
+    #exit 1
+    failed="true"
   fi
 done
 
-# All the invoked commands must have exited with code zero.
-exit 0
+if [[ "$failed" == "false" ]]; then
+  exit 1
+else
+  exit 0
+fi
