@@ -44,9 +44,6 @@ inputs:
   cmd10:
     description: "Bash command"
     required: false
-  cmd10:
-    description: "Bash command"
-    required: false
   cmd11:
     description: "Bash command"
     required: false
