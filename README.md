@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Run bash commands in parallel
-        uses: sambacha/parallelish@v1
+        uses: mping-exo/parallelish@master
           id: tasks
         with:
           cmd1: echo $BASH_VERSION; date;
