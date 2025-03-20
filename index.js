@@ -3,21 +3,28 @@ const path = require('path');
 const core = require('@actions/core');
 
 const args = core.getInput('run');
+args.split("\n").forEach (arg => {
 
-core.debug(`Waiting ${args} args ...`)
+    core.info(`Executing '${arg}' ...`)
+    const cmd = spawn(arg, [], {
+        detached: true,
+        shell: true
+    });
 
-const ls = spawn('/usr/bin/sleep', [2], {
-  detached: true
-});
+    cmd.stdout.on('data', (data) => {
+        core.info(data)
+    });
 
-ls.stdout.on('data', (data) => {
-console.log(`stdout: ${data} ${process.argv}`);
-});
+    cmd.stderr.on('error', (data) => {
+        core.error(data)
+    });
 
-ls.stderr.on('data', (data) => {
-console.error(`stderr: ${data} ${process.argv}`);
-});
-
-ls.on('close', (code) => {
-console.log(`child process exited with code ${code} |  ${process.argv}`);
-});
+    cmd.on('close', (code) => {
+        if (code == 0) {
+            core.info(`command '${arg}' exited with code: ${code}`);
+        } else {
+            core.error(`child process exited with code ${code} `);
+            core.setFailed(`command '${arg}' failed with error code: ${code}`);
+        }   
+    });
+})
