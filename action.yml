@@ -1,76 +1,12 @@
 name: "Distributed Task Runner"
 description: "Executes a list of tasks via bash in parallel."
+inputs:
+  run:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
 
 runs:
-  using: "composite"
-  steps:
-    - id: setParallelCommands
-      run: |
-        COMMANDS=$(node -e "console.log(JSON.stringify(['${{ inputs.cmd1 }}', '${{ inputs.cmd2 }}', '${{ inputs.cmd3 }}', '${{ inputs.cmd4 }}', '${{ inputs.cmd5 }}', '${{ inputs.cmd6 }}', '${{ inputs.cmd7 }}', '${{ inputs.cmd8 }}', '${{ inputs.cmd9 }}', '${{ inputs.cmd10 }}', '${{ inputs.cmd11 }}', '${{ inputs.cmd12 }}', '${{ inputs.cmd13 }}', '${{ inputs.cmd14 }}', '${{ inputs.cmd15 }}', '${{ inputs.cmd16 }}', '${{ inputs.cmd17 }}', '${{ inputs.cmd18 }}', '${{ inputs.cmd19 }}', '${{ inputs.cmd20 }}'].filter(Boolean)))")
-        echo "::set-output name=commands::$COMMANDS"
-      shell: bash
-    - run: ${{ github.action_path }}/run.sh '${{ steps.setParallelCommands.outputs.commands }}'
-      shell: bash
-
-# Github actions are currently only able to accept strings as inputs to we have explicitly handle a certain number
-inputs:
-  cmd1:
-    description: "Bash command"
-    required: true
-  cmd2:
-    description: "Bash command"
-    required: false
-  cmd3:
-    description: "Bash command"
-    required: false
-  cmd4:
-    description: "Bash command"
-    required: false
-  cmd5:
-    description: "Bash command"
-    required: false
-  cmd6:
-    description: "Bash command"
-    required: false
-  cmd7:
-    description: "Bash command"
-    required: false
-  cmd8:
-    description: "Bash command"
-    required: false
-  cmd9:
-    description: "Bash command"
-    required: false
-  cmd10:
-    description: "Bash command"
-    required: false
-  cmd11:
-    description: "Bash command"
-    required: false
-  cmd12:
-    description: "Bash command"
-    required: false
-  cmd13:
-    description: "Bash command"
-    required: false
-  cmd14:
-    description: "Bash command"
-    required: false
-  cmd15:
-    description: "Bash command"
-    required: false
-  cmd16:
-    description: "Bash command"
-    required: false
-  cmd17:
-    description: "Bash command"
-    required: false
-  cmd18:
-    description: "Bash command"
-    required: false
-  cmd19:
-    description: "Bash command"
-    required: false
-  cmd20:
-    description: "Bash command"
-    required: false
+  using: 'node20'
+  main: 'index.js'
+  
